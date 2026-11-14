@@ -1,0 +1,4 @@
+interface:
+  display_name: "WordPress Plugins and Themes"
+  short_description: "Build WordPress plugins, blocks, and themes"
+  default_prompt: "Use $wordpress-plugins-and-themes. Review this WordPress block plugin before release. Confirm its minimum core support, protect the REST operation with per-object capabilities, and verify existing saved blocks and a clean install from the built ZIP."

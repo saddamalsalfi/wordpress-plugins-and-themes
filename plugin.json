@@ -1,0 +1,19 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "wordpress-plugins-and-themes",
+  "description": "Develop, review, and package WordPress plugins, blocks, and themes. Use for classic, block or child themes, MU plugins, plugin headers and upgrades, REST/AJAX permissions, Multisite, theme.json, and installable ZIPs.",
+  "author": {
+    "name": "Saddam Al-Slfi"
+  },
+  "license": "MIT",
+  "keywords": [
+    "agent-skills",
+    "wordpress",
+    "wp",
+    "plugins",
+    "themes",
+    "gutenberg",
+    "multisite",
+    "php"
+  ]
+}

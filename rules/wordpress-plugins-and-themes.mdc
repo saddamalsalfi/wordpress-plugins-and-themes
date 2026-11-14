@@ -1,0 +1,11 @@
+---
+alwaysApply: false
+---
+
+# WordPress Plugins and Themes
+
+Use this manual rule only for WordPress extension work. Read the installed skill entrypoint at `.cursor/skills/wordpress-plugins-and-themes/SKILL.md` or `.agents/skills/wordpress-plugins-and-themes/SKILL.md` (whichever is installed), then open only the relevant references. If neither is present, ask for the installed skill folder or install the complete skill using its repository README.
+
+- Identify plugin lifecycle, theme model, minimum core, and single-site/Multisite scope.
+- Preserve runtime slug, text domain, public routes, and block identity; use object-level capabilities separately from nonces.
+- Verify saved content and Site Editor precedence before changing block or theme templates.
