@@ -112,8 +112,35 @@ class DistributionTests(unittest.TestCase):
         self.assertTrue(manifest["author"]["name"].strip())
         self.assertIn("agent-skills", manifest["keywords"])
         self.assertTrue(all(isinstance(x, str) and x.strip() for x in manifest["keywords"]))
-        for path in ("mcp.json", ".mcp.json", "hooks"):
+        for path in (".mcp.json", "hooks"):
             self.assertFalse((ROOT / path).exists())
+        cfg = json.loads((ROOT / "mcp.json").read_text(encoding="utf-8"))
+        self.assertEqual(cfg["$schema"], "https://agent-plugins.org/schemas/1.0.0/mcp.schema.json")
+        self.assertEqual(set(cfg["mcpServers"]), {self.name})
+        server_cfg = cfg["mcpServers"][self.name]
+        self.assertEqual(server_cfg["type"], "stdio")
+        self.assertEqual(server_cfg["command"], "uv")
+        self.assertIn("--locked", server_cfg["args"])
+        self.assertIn("${PLUGIN_ROOT}/server.py", server_cfg["args"])
+        self.assertEqual(server_cfg["cwd"], "${PLUGIN_ROOT}")
+        self.assertEqual(server_cfg["env"]["UV_PROJECT_ENVIRONMENT"], "${PLUGIN_DATA}/venv")
+
+    def test_registry_oci_identity(self):
+        registry = json.loads((ROOT / "server.json").read_text(encoding="utf-8"))
+        self.assertEqual(registry["name"], f"io.github.saddamalsalfi/{self.name}")
+        self.assertLessEqual(len(registry["description"]), 100)
+        image, = registry["packages"]
+        self.assertEqual(image["registryType"], "oci")
+        self.assertEqual(image["transport"], {"type": "stdio"})
+        self.assertEqual(image["identifier"], f"ghcr.io/saddamalsalfi/{self.name}:{registry['version']}")
+        dockerfile = (ROOT / "Dockerfile").read_text(encoding="utf-8")
+        self.assertIn(f'io.modelcontextprotocol.server.name="{registry["name"]}"', dockerfile)
+        self.assertIn(f'org.opencontainers.image.version="{registry["version"]}"', dockerfile)
+        self.assertIn('USER 10001:10001', dockerfile)
+        runtime = (ROOT / "pyproject.toml").read_text(encoding="utf-8")
+        self.assertIn(f'version = "{registry["version"]}"', runtime)
+        self.assertTrue((ROOT / "uv.lock").is_file())
+        assert_local_links(self, (ROOT / "docs").glob("*.md"), ROOT)
 
     def test_client_adapters(self):
         metadata = (self.skill / "agents" / "openai.yaml").read_text(encoding="utf-8")

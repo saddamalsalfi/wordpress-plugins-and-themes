@@ -39,9 +39,13 @@ npx skills add "/path/to/wordpress-plugins-and-themes" --list
 npx skills add "/path/to/wordpress-plugins-and-themes" --skill wordpress-plugins-and-themes
 ```
 
-After publishing to GitHub, pass the repository's `OWNER/REPO` instead of the local path. This works independently of the optional [Agent Plugins manifest](https://agent-plugins.org/plugin-authors/manifest). No MCP server, Docker image, or hook is needed. See the client's documentation for hosted or organization-managed installations.
+After publishing to GitHub, pass the repository's `OWNER/REPO` instead of the local path. This works independently of the optional [Agent Plugins manifest](https://agent-plugins.org/plugin-authors/manifest). Installing the native skill does not start or require the optional MCP server or Docker. See the client's documentation for hosted or organization-managed installations.
 
 **Optional Cursor rule:** After installing the skill, copy [the manual rule](rules/wordpress-plugins-and-themes.mdc) to the target project's `.cursor/rules/` and mention `@wordpress-plugins-and-themes` as a rule in chat. Prefer the native skill when available; this shortcut does not replace it. [Cursor rules docs](https://cursor.com/docs/rules)
+
+## MCP and Docker
+
+Use the read-only MCP server if your client needs MCP instead of direct skill discovery. It serves the same bundled references over stdio or Streamable HTTP. See the [setup and publishing guide](docs/distribution.md) for Python, Docker, Glama, and the official MCP Registry.
 
 ## Try it
 
@@ -59,7 +63,7 @@ Run from this repository root with Python 3.10+:
 python -B -m unittest discover -s tests -v
 ```
 
-The checks cover the bundled installation, metadata, and links. The GitHub Actions workflow runs these checks on Windows and Linux. They do **not** exercise WordPress runtime code or certify that a resulting package is compatible or accepted upstream.
+The standard-library checks cover installation, metadata, and local links. To exercise MCP, install the locked dependencies as described in the setup guide and rerun the suite. The GitHub Actions workflow runs these checks on Windows and Linux. They do **not** exercise WordPress runtime code or certify that a resulting package is compatible or accepted upstream.
 
 This repository is independent and not endorsed by WordPress. The MIT license applies to this skill; check the applicable license and directory requirements for any extension it helps you build.
 

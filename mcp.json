@@ -1,0 +1,27 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/mcp.schema.json",
+  "mcpServers": {
+    "wordpress-plugins-and-themes": {
+      "type": "stdio",
+      "command": "uv",
+      "args": [
+        "run",
+        "--locked",
+        "--no-dev",
+        "--no-build",
+        "--no-python-downloads",
+        "python",
+        "-B",
+        "${PLUGIN_ROOT}/server.py",
+        "--transport",
+        "stdio"
+      ],
+      "cwd": "${PLUGIN_ROOT}",
+      "env": {
+        "UV_PROJECT_ENVIRONMENT": "${PLUGIN_DATA}/venv",
+        "UV_NO_CONFIG": "1",
+        "UV_PYTHON_DOWNLOADS": "never"
+      }
+    }
+  }
+}

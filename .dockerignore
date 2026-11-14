@@ -1,0 +1,11 @@
+*
+!Dockerfile
+!.dockerignore
+!requirements.txt
+!server.py
+!pyproject.toml
+!LICENSE
+!skills/
+!skills/**/
+!skills/**/*.md
+!skills/**/LICENSE
